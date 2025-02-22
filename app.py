@@ -4,13 +4,17 @@ from datetime import datetime
 from cs50 import SQL
 from flask import Flask, render_template, request, redirect, flash, session
 from flask_session import Session
+from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
 from helpers import apology, login_required, dateForm
+
+load_dotenv()
 
 app = Flask(__name__)
 
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 Session(app)
 
 db = SQL('sqlite:///tasktracker.db')
@@ -83,6 +87,10 @@ def index():
         
         return render_template('index.html', tasks = user_tasks)
 
+
+@app.route('/welcome', methods = ['GET'])
+def welcome():
+    return render_template('welcome.html')
 
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -176,6 +184,8 @@ def login():
 def logout():
     
     session.clear()
+    
+    flash('You have logged out!')
 
     return redirect('/')
 
@@ -334,4 +344,4 @@ def completedTasks():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=False, port=5001)

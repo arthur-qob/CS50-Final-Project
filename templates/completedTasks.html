@@ -1,37 +1,85 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block title %} Completed Tasks {% endblock %} {%
+block main %}
+<div class="mb-3">
+  <h1>Completed Tasks</h1>
+</div>
+<div class="mb-3">
+  {% if tasks %}
+  <div class="table-reponsive">
+    <table class="table table-stripped">
+      <thead>
+        <th scope="col">Title</th>
+        <th scope="col">Created on</th>
+        <th scope="col">Start date</th>
+        <th scope="col">End date</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <td>{{ task["title"] }}</td>
+          <td>{{ task["dateCreation"] }}</td>
+          <td>{{ task["dateStart"] }}</td>
+          <td>{{ task["dateEnd"] }}</td>
+          <td>{{ task["description"] }}</td>
+          <td>{{ task["status"] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
 
-{% block title %}
-    Completed Tasks
-{% endblock %}
+<style lang="sass">
+    form {
+        max-width: 80dvw;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
 
-{% block main %}
-    <div class = "mb-3">
-        <h1>Completed Tasks</h1>
-    </div>
-    <div class = "mb-3">
-        {% if tasks %}
-            <table class = "table table-stripped" style = "width: 50vw; margin: 0 auto;">
-                <thead>
-                    <th scope = "col">Title</th>
-                    <th scope = "col">Created on</th>
-                    <th scope = "col">Start date</th>
-                    <th scope = "col">End date</th>
-                    <th scope = "col">Description</th>
-                    <th scope = "col">Status</th>
-                </thead>
-                <tbody>
-                    {% for task in tasks %}
-                        <tr>
-                            <td>{{ task["title"] }}</td>
-                            <td>{{ task["dateCreation"] }}</td>
-                            <td>{{ task["dateStart"] }}</td>
-                            <td>{{ task["dateEnd"] }}</td>
-                            <td>{{ task["description"] }}</td>
-                            <td>{{ task["status"] }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
-    </div>
+        table, .buttons {
+            min-width: none;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+
+            .btn {
+                min-width: max-content;
+                max-width: 150px;
+                box-sizing: border-box !important;
+                padding: 5px 10px !important;
+                font-size: min(3dvw, 1rem);
+            }
+        }
+
+    }
+
+  @media screen and (max-width: 500px) {
+    table {
+      max-width: 100%;
+      font-size: 3dvw;
+    }
+
+    .buttons {
+      flex-direction: column !important;
+      gap: 10px;
+
+      .btn {
+        width: 50dvw;
+        margin: 0 auto;
+      }
+    }
+
+  }
+</style>
 {% endblock %}
